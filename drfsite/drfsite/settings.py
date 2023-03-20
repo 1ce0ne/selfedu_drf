@@ -146,7 +146,11 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.BasicAuthentication",
         "rest_framework.authentication.SessionAuthentication",
         "rest_framework_simplejwt.authentication.JWTAuthentication",
-    ]
+    ],
+
+    # Урок 15: Добавляем пагинацию (pagination)
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
+    "PAGE_SIZE": 2,
 }   
 
 # Урок 14: Авторизация по JWT-токенам
