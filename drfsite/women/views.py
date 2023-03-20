@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from rest_framework import generics
+from rest_framework import generics, viewsets
 from .models import Women
 from .serializers import WomenSerializer
 from rest_framework.views import APIView
@@ -113,25 +113,41 @@ from django.forms import model_to_dict
 
 
 # Урок 6: Класс ModelSerializer и представление ListCreateAPIView
-class WomenAPIList(generics.ListCreateAPIView):
-    """
-    GET и CREATE
-    """
-    queryset = Women.objects.all()
-    serializer_class = WomenSerializer
+# class WomenAPIList(generics.ListCreateAPIView):
+#     """
+#     GET и CREATE
+#     """
+#     queryset = Women.objects.all()
+#     serializer_class = WomenSerializer
 
 
 # Урок 7: Представления UpdateAPIView и RetrieveUpdateDestroyAPIView
-class WomenAPIUpdate(generics.UpdateAPIView):
+# class WomenAPIUpdate(generics.UpdateAPIView):
+#     """
+#     UPDATE
+#     """
+#     queryset = Women.objects.all()
+#     serializer_class = WomenSerializer
+
+# class WomenAPIDetailView(generics.RetrieveUpdateDestroyAPIView):
+#     """
+#     CRUD для отдельной записи
+#     """
+#     queryset = Women.objects.all()
+#     serializer_class = WomenSerializer
+
+
+# Урок 8: Viewsets и ModelViewSet
+class WomenViewSet(viewsets.ModelViewSet):
     """
-    UPDATE
+    CRUD
     """
     queryset = Women.objects.all()
     serializer_class = WomenSerializer
 
-class WomenAPIDetailView(generics.RetrieveUpdateDestroyAPIView):
-    """
-    CRUD для отдельной записи
-    """
-    queryset = Women.objects.all()
-    serializer_class = WomenSerializer
+# class WomenViewSet(viewsets.ReadOnlyModelViewSet):
+#     """
+#     READ
+#     """
+#     queryset = Women.objects.all()
+#     serializer_class = WomenSerializer
