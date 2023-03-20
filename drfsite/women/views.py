@@ -119,3 +119,19 @@ class WomenAPIList(generics.ListCreateAPIView):
     """
     queryset = Women.objects.all()
     serializer_class = WomenSerializer
+
+
+# Урок 7: Представления UpdateAPIView и RetrieveUpdateDestroyAPIView
+class WomenAPIUpdate(generics.UpdateAPIView):
+    """
+    UPDATE
+    """
+    queryset = Women.objects.all()
+    serializer_class = WomenSerializer
+
+class WomenAPIDetailView(generics.RetrieveUpdateDestroyAPIView):
+    """
+    CRUD для отдельной записи
+    """
+    queryset = Women.objects.all()
+    serializer_class = WomenSerializer
