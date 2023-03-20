@@ -64,48 +64,58 @@ from django.forms import model_to_dict
     
 
 # Урок 5: Методы save(), create() и update()
-class WomenAPIView(APIView):
-    # Обработка GET-запросов:
-    def get(self, request):
-        w = Women.objects.all()
-        return Response({'posts': WomenSerializer(w, many=True).data})
+# class WomenAPIView(APIView):
+#     # Обработка GET-запросов:
+#     def get(self, request):
+#         w = Women.objects.all()
+#         return Response({'posts': WomenSerializer(w, many=True).data})
     
-    # Обработка POST-запросов:
-    def post(self, request):
-        # Проверяем корректность данных:
-        serializers = WomenSerializer(data=request.data)
-        serializers.is_valid(raise_exception=True)
-        serializers.save()
+#     # Обработка POST-запросов:
+#     def post(self, request):
+#         # Проверяем корректность данных:
+#         serializers = WomenSerializer(data=request.data)
+#         serializers.is_valid(raise_exception=True)
+#         serializers.save()
 
-        return Response({'post': serializers.data})
+#         return Response({'post': serializers.data})
     
-    # Обработка PUT-запросов:
-    def put(self, request, *args, **kwargs):
-        pk = kwargs.get("pk", None)
-        if not pk:
-            return Response({"error": "Method PUT not allowed"})
+#     # Обработка PUT-запросов:
+#     def put(self, request, *args, **kwargs):
+#         pk = kwargs.get("pk", None)
+#         if not pk:
+#             return Response({"error": "Method PUT not allowed"})
         
-        try:
-            instance = Women.objects.get(pk=pk)
-        except:
-            return Response({"error": "Object doesn't exists"})
+#         try:
+#             instance = Women.objects.get(pk=pk)
+#         except:
+#             return Response({"error": "Object doesn't exists"})
         
-        serializer = WomenSerializer(data=request.data, instance=instance)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response({"post": serializer.data})
+#         serializer = WomenSerializer(data=request.data, instance=instance)
+#         serializer.is_valid(raise_exception=True)
+#         serializer.save()
+#         return Response({"post": serializer.data})
     
-    # Обработка DELETE-запросов:
-    def delete(self, request, *args, **kwargs):
-        pk = kwargs.get("pk", None)
-        if not pk:
-            return Response({"error": "Method DELETE not allowed"})
+#     # Обработка DELETE-запросов:
+#     def delete(self, request, *args, **kwargs):
+#         pk = kwargs.get("pk", None)
+#         if not pk:
+#             return Response({"error": "Method DELETE not allowed"})
         
-        try:
-            instance = Women.objects.get(pk=pk)
-            deleted_title = str(instance.title)
-            instance.delete()
-        except:
-            return Response({"error": "Object doesn't exists"})
+#         try:
+#             instance = Women.objects.get(pk=pk)
+#             deleted_title = str(instance.title)
+#             instance.delete()
+#         except:
+#             return Response({"error": "Object doesn't exists"})
         
-        return Response({"post": f"delete post {str(pk)} : {deleted_title}"})
+#         return Response({"post": f"delete post {str(pk)} : {deleted_title}"})
+    
+
+
+# Урок 6: Класс ModelSerializer и представление ListCreateAPIView
+class WomenAPIList(generics.ListCreateAPIView):
+    """
+    GET и CREATE
+    """
+    queryset = Women.objects.all()
+    serializer_class = WomenSerializer
