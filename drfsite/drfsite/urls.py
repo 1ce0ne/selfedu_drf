@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 
 from women.views import *
 from rest_framework import routers
@@ -65,4 +65,9 @@ urlpatterns = [
 
     # Урок 11: Авторизация и аутентификация. Session-based authentication
     path("api/v1/drf-auth/", include("rest_framework.urls")),
+
+    # Урок 12: Аутентификация по токенам. Пакет Djoser (поддерживает регистрацию, авторизацию и т.д.)
+    path("api/v1/auth/", include('djoser.urls')),
+    re_path(r"^auth/", include('djoser.urls.authtoken')),
+
 ]

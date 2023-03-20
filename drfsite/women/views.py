@@ -6,8 +6,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.forms import model_to_dict
 from rest_framework.decorators import action
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser, IsAuthenticated
 from .permissions import IsAdminOrReadOnly, IsOwnerOrReadOnly
+from rest_framework.authentication import TokenAuthentication
 
 
 # Урок 2: Пример простого представления
@@ -179,6 +180,23 @@ from .permissions import IsAdminOrReadOnly, IsOwnerOrReadOnly
     
 
 # Урок 10: Ограничения доступа (permissions) 
+# class WomenAPIList(generics.ListCreateAPIView):
+#     queryset = Women.objects.all()
+#     serializer_class = WomenSerializer
+#     permission_classes = (IsAuthenticatedOrReadOnly, )
+
+# class WomenAPIUpdate(generics.RetrieveUpdateAPIView):
+#     queryset = Women.objects.all()
+#     serializer_class = WomenSerializer
+#     permission_classes = (IsOwnerOrReadOnly, )
+
+# class WomenAPIDestroy(generics.RetrieveDestroyAPIView):
+#     queryset = Women.objects.all()
+#     serializer_class = WomenSerializer
+#     permission_classes = (IsAdminOrReadOnly, )
+
+
+# Урок 12: Аутентификация по токенам. Пакет Djoser
 class WomenAPIList(generics.ListCreateAPIView):
     queryset = Women.objects.all()
     serializer_class = WomenSerializer
@@ -187,7 +205,9 @@ class WomenAPIList(generics.ListCreateAPIView):
 class WomenAPIUpdate(generics.RetrieveUpdateAPIView):
     queryset = Women.objects.all()
     serializer_class = WomenSerializer
-    permission_classes = (IsOwnerOrReadOnly, )
+    permission_classes = (IsAuthenticated, )
+    # Можем разграничивать данные по способу авторизации
+    authentication_classes = (TokenAuthentication, )
 
 class WomenAPIDestroy(generics.RetrieveDestroyAPIView):
     queryset = Women.objects.all()
