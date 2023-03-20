@@ -1,0 +1,12 @@
+1) Создаем виртуальное окружение
+python3 -m venv env
+source env/bin/activate
+
+2) Устанавливаем библиотеки
+pip install django
+pip install djangorestframework
+pip install django-cors-headers
+
+3) Записываем все установленные библиотеки
+pip freeze > requirements.txt
+
