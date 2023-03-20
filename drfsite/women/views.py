@@ -207,7 +207,7 @@ class WomenAPIUpdate(generics.RetrieveUpdateAPIView):
     serializer_class = WomenSerializer
     permission_classes = (IsAuthenticated, )
     # Можем разграничивать данные по способу авторизации
-    authentication_classes = (TokenAuthentication, )
+    #authentication_classes = (TokenAuthentication, )
 
 class WomenAPIDestroy(generics.RetrieveDestroyAPIView):
     queryset = Women.objects.all()
