@@ -22,10 +22,12 @@ from rest_framework import routers
 
 
 # Урок 9: Роутеры: SipleRouter и DefaultRouter
+
 # router = routers.SimpleRouter() # Отсутствует путь 127.0.0.1:8000/api/v1/
 # router.register(r'women', WomenViewSet)
-router = routers.DefaultRouter() # Присутствует путь 127.0.0.1:8000/api/v1/
-router.register(r'women', WomenViewSet, basename="women")
+
+# router = routers.DefaultRouter() # Присутствует путь 127.0.0.1:8000/api/v1/
+# router.register(r'women', WomenViewSet, basename="women")
 
 # class MyCustomRouter(routers.SimpleRouter):
 #     """
@@ -50,8 +52,14 @@ router.register(r'women', WomenViewSet, basename="women")
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+
     # path("api/v1/womenlist/", WomenAPIList.as_view()),
     # path("api/v1/womenlist/<int:pk>/", WomenAPIUpdate.as_view()),
     # path("api/v1/womendetail/<int:pk>/", WomenAPIDetailView.as_view()),
-    path('api/v1/', include(router.urls)), # http:/127.0.0.1:8000/api/v1/women
+
+    # path('api/v1/', include(router.urls)), # http:/127.0.0.1:8000/api/v1/women
+
+    path("api/v1/women/", WomenAPIList.as_view()),
+    path("api/v1/women/<int:pk>/", WomenAPIUpdate.as_view()),
+    path("api/v1/womendelete/<int:pk>/", WomenAPIDestroy.as_view()),
 ]

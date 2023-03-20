@@ -6,6 +6,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.forms import model_to_dict
 from rest_framework.decorators import action
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser
+from .permissions import IsAdminOrReadOnly, IsOwnerOrReadOnly
 
 
 # Урок 2: Пример простого представления
@@ -155,22 +157,39 @@ from rest_framework.decorators import action
 
 
 # Урок 9: Роутеры: SipleRouter и DefaultRouter
-class WomenViewSet(viewsets.ModelViewSet):
-    #queryset = Women.objects.all()
-    serializer_class = WomenSerializer
+# class WomenViewSet(viewsets.ModelViewSet):
+#     #queryset = Women.objects.all()
+#     serializer_class = WomenSerializer
  
-    # Переопределяем queryset
-    def get_queryset(self):
-        pk = self.kwargs.get("pk")
+#     # Переопределяем queryset
+#     def get_queryset(self):
+#         pk = self.kwargs.get("pk")
 
-        if not pk:
-            return Women.objects.all()[:3]
+#         if not pk:
+#             return Women.objects.all()[:3]
         
-        return Women.objects.filter(pk=pk)
+#         return Women.objects.filter(pk=pk)
 
     
-    # Добавляем новые маршруты
-    @action(methods=['get'], detail=True)
-    def category(self, request, pk=None):
-        cats = Category.objects.get(pk=Women.objects.get(pk=pk).cat_id)
-        return Response({'cats': cats.name})
+#     # Добавляем новые маршруты
+#     @action(methods=['get'], detail=True)
+#     def category(self, request, pk=None):
+#         cats = Category.objects.get(pk=Women.objects.get(pk=pk).cat_id)
+#         return Response({'cats': cats.name})
+    
+
+# Урок 10: Ограничения доступа (permissions) 
+class WomenAPIList(generics.ListCreateAPIView):
+    queryset = Women.objects.all()
+    serializer_class = WomenSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly, )
+
+class WomenAPIUpdate(generics.RetrieveUpdateAPIView):
+    queryset = Women.objects.all()
+    serializer_class = WomenSerializer
+    permission_classes = (IsOwnerOrReadOnly, )
+
+class WomenAPIDestroy(generics.RetrieveDestroyAPIView):
+    queryset = Women.objects.all()
+    serializer_class = WomenSerializer
+    permission_classes = (IsAdminOrReadOnly, )

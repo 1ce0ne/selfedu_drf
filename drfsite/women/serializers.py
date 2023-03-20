@@ -78,10 +78,16 @@ from rest_framework.parsers import JSONParser
     
 
 # Урок 6: Класс ModelSerializer и представление ListCreateAPIView
+# class WomenSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Women
+#         fields = "__all__"
+
+
+# Урок 10: Ограничения доступа (permissions) 
 class WomenSerializer(serializers.ModelSerializer):
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    
     class Meta:
         model = Women
         fields = "__all__"
-
-
-# Урок 7: Представления UpdateAPIView и RetrieveUpdateDestroyAPIView
